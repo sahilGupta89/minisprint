@@ -29,8 +29,15 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-app.post('/', function (req, res) {
-})
+app.post('/link-account', function (req, res) {
+    allRoutes.linkAccount(req, res)
+});
+app.post('/import', function (req, res) {
+    allRoutes.addCourses(req, res)
+});
+app.get('/courses', function (req, res) {
+    allRoutes.getCourses(req, res)
+});
 
 db = '';
 
@@ -40,6 +47,6 @@ startServer = http.createServer(app).listen(3000, function () {
     MongoClient.connect(url, function (err, dba) {
         assert.equal(null, err);
         db = dba;
-    }); 
+    });
 });
 
