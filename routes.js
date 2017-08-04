@@ -1,8 +1,8 @@
 let mongo = require('./mongo');
 let needle = require('needle');
 exports.linkAccount = function (req, res) {
-    // Get the documents collection 
-    let token = req.body.token ? req.body.token : '';
+    // Get the documents collection
+    let token = req.query.token ? req.query.token : '';
     if (token) {
         mongo.addNewLinking(token, function (err, result) {
             if (err) {
@@ -27,7 +27,7 @@ exports.linkAccount = function (req, res) {
 }
 
 exports.addCourses = function (req, res) {
-    if (req.body.token) {
+    if (req.query.token) {
         let options = {
             JSON: true,
             headers: {
@@ -44,7 +44,7 @@ exports.addCourses = function (req, res) {
                     delete body[i]['integration_id']
                     delete body[i]['storage_quota_mb']
                 }
-                mongo.addCourses(req.body.token, body, function (err, result) {
+                mongo.addCourses(req.query.token, body, function (err, result) {
                     console.log('err,result', err, result)
                     res.send({
                         message: 'success',
@@ -66,7 +66,6 @@ exports.addCourses = function (req, res) {
 }
 
 exports.getCourses = function (req, res) {
-    console.log(req.query)
     if (req.query.token) {
         mongo.getCoursesFromDb(req.query.token, function (err, result) {
             if (err) {
